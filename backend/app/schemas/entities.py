@@ -11,3 +11,9 @@ class LookbackUpdate(BaseModel):
 
 class SettingUpdate(BaseModel):
     value: str
+
+
+class PromotionRequest(BaseModel):
+    """Promote one ingest batch (run_id) or all pending rows (run_id omitted)."""
+
+    run_id: int | None = None

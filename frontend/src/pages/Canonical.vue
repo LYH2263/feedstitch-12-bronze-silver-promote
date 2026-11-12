@@ -22,7 +22,8 @@ onMounted(load)
 <template>
   <div class="page">
     <h1>Canonical</h1>
-    <p class="muted">归并后的权威货号表。列表条数应与最近 Run 报告中的 canonical_count 对得上。</p>
+    <p class="muted">正式主数据区（Silver）。只包含已通过晋升闸的行；未晋升候选请在
+      <router-link to="/bronze">待晋升区</router-link> 查看。</p>
     <p v-if="err" class="tag danger">{{ err }}</p>
     <div class="panel">
       <p>共 <strong>{{ rows.length }}</strong> 条</p>

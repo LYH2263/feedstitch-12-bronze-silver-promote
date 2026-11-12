@@ -13,8 +13,9 @@ onMounted(async () => {
 </script>
 <template>
   <div class="page">
-    <h1>Staging</h1>
-    <p class="muted">最近写入的 staging 行（含 disposition）。</p>
+    <h1>Staging 审计</h1>
+    <p class="muted">最近写入的 staging 审计行（含 disposition）。实际等待晋升的候选行见
+      <router-link to="/bronze">待晋升区</router-link>。</p>
     <p v-if="err" class="tag danger">{{ err }}</p>
     <div class="panel">
       <table>

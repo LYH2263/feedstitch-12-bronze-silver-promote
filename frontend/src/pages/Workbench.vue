@@ -36,7 +36,7 @@ onMounted(async () => {
 <template>
   <div class="page">
     <h1>运行台</h1>
-    <p class="muted">选源触发增量或全量；报告中的成功 / 冲突 / Canonical 总数需与列表页互证。</p>
+    <p class="muted">选源触发增量或全量；解析 / 去重 / 冲突隔离后先落待晋升区，晋升闸通过才写 Canonical。</p>
     <div class="panel">
       <label>
         源
@@ -62,18 +62,25 @@ onMounted(async () => {
         Run #{{ last.id }} ·
         <span class="tag ok">{{ last.status }}</span> ·
         parsed {{ last.parsed_count }} /
-        upserted {{ last.upserted_count }} /
+        入待晋升 {{ last.upserted_count }} /
         conflict {{ last.conflict_count }} /
         skipped {{ last.skipped_count }}
       </p>
-      <p class="mono muted">canonical_count={{ last.report?.canonical_count }} watermark={{ last.report?.watermark_ts }}</p>
+      <p class="mono muted">
+        bronze_candidates={{ last.report?.bronze_candidate_count }}
+        bronze_keys={{ (last.report?.bronze_business_keys || []).length }}
+        bronze_pending={{ last.report?.bronze_pending_count }}
+        canonical_count={{ last.report?.canonical_count }}
+        watermark={{ last.report?.watermark_ts }}
+      </p>
+      <router-link to="/promote">去晋升台处理这批候选 →</router-link>
     </div>
     <div class="panel">
       <h3>历史 Runs</h3>
       <table>
         <thead>
           <tr>
-            <th>ID</th><th>源</th><th>模式</th><th>状态</th><th>parsed</th><th>upserted</th><th>conflict</th><th>skipped</th><th>时间</th>
+            <th>ID</th><th>源</th><th>模式</th><th>状态</th><th>parsed</th><th>入待晋升</th><th>conflict</th><th>skipped</th><th>时间</th>
           </tr>
         </thead>
         <tbody>

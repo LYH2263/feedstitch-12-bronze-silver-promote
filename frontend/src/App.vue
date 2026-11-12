@@ -6,7 +6,9 @@
       <router-link to="/sources">源管理</router-link>
       <router-link to="/preview">样本预览</router-link>
       <router-link to="/workbench">运行台</router-link>
-      <router-link to="/staging">Staging</router-link>
+      <router-link to="/staging">Staging 审计</router-link>
+      <router-link to="/bronze">待晋升区</router-link>
+      <router-link to="/promote">晋升台</router-link>
       <router-link to="/conflicts">冲突队列</router-link>
       <router-link to="/canonical">Canonical</router-link>
       <router-link to="/watermarks">水位线</router-link>

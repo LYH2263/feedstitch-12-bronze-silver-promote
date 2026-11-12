@@ -63,6 +63,40 @@ def init_db():
             reason TEXT NOT NULL,
             created_at TEXT NOT NULL
         );
+        -- Bronze / 待晋升区：ingest 先落这里，晋升闸通过后才写 canonical。
+        CREATE TABLE IF NOT EXISTS bronze_rows(
+            id INTEGER PRIMARY KEY,
+            run_id INTEGER NOT NULL,
+            source_id INTEGER NOT NULL,
+            business_key TEXT NOT NULL,
+            title TEXT NOT NULL,
+            price REAL NOT NULL,
+            category TEXT NOT NULL,
+            event_ts TEXT NOT NULL,
+            source_revision INTEGER NOT NULL,
+            payload_json TEXT NOT NULL,
+            disposition TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT 'pending',
+            promotion_id INTEGER,
+            failure_reason TEXT,
+            created_at TEXT NOT NULL DEFAULT (datetime('now')),
+            promoted_at TEXT
+        );
+        CREATE INDEX IF NOT EXISTS idx_bronze_status ON bronze_rows(status);
+        CREATE INDEX IF NOT EXISTS idx_bronze_run ON bronze_rows(run_id);
+        CREATE INDEX IF NOT EXISTS idx_bronze_key ON bronze_rows(business_key);
+        -- 晋升批次：每次晋升尝试一条，成功/失败报告持久化。
+        CREATE TABLE IF NOT EXISTS promotion_batches(
+            id INTEGER PRIMARY KEY,
+            scope TEXT NOT NULL,
+            run_id INTEGER,
+            status TEXT NOT NULL,
+            candidate_count INTEGER NOT NULL DEFAULT 0,
+            success_count INTEGER NOT NULL DEFAULT 0,
+            failure_count INTEGER NOT NULL DEFAULT 0,
+            report_json TEXT NOT NULL DEFAULT '{}',
+            created_at TEXT NOT NULL DEFAULT (datetime('now'))
+        );
         """
     )
     if conn.execute("SELECT COUNT(*) c FROM sources").fetchone()["c"] == 0:

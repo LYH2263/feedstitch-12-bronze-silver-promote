@@ -4,6 +4,8 @@ import Sources from './pages/Sources.vue'
 import Preview from './pages/Preview.vue'
 import Workbench from './pages/Workbench.vue'
 import Staging from './pages/Staging.vue'
+import Bronze from './pages/Bronze.vue'
+import Promote from './pages/Promote.vue'
 import Conflicts from './pages/Conflicts.vue'
 import Canonical from './pages/Canonical.vue'
 import Watermarks from './pages/Watermarks.vue'
@@ -16,6 +18,8 @@ export default createRouter({
     { path: '/preview', component: Preview },
     { path: '/workbench', component: Workbench },
     { path: '/staging', component: Staging },
+    { path: '/bronze', component: Bronze },
+    { path: '/promote', component: Promote },
     { path: '/conflicts', component: Conflicts },
     { path: '/canonical', component: Canonical },
     { path: '/watermarks', component: Watermarks },
